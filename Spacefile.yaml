@@ -1,0 +1,24 @@
+_dep_install:
+    _info:
+        title: Check for dependencies.
+    _env:
+        - CMD: TRANSFER_DEP_INSTALL
+
+connect:
+    _info:
+        title: Connect to peer to transfer/recieve data.
+        desc: |
+            Establish a TCP connection to remote part.
+            Use pipe or redirection to send/receive file upon
+            successful connection.
+    _env:
+        - CMD: TRANSFER_CONNECT
+
+listen:
+    _info:
+        title: Listen on port for connecting peer.
+        desc: |
+            Use pipe or redirection to send/receive file upon
+            successful connection.
+    _env:
+        - CMD: TRANSFER_LISTEN
