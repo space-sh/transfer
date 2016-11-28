@@ -49,7 +49,7 @@ TRANSFER_LISTEN ()
     version="$(nc --help 2>&1)"
     version="${version%%\ *}"
     if [ "${version}" = "GNU" ]; then
-        GNU="-c"
+        GNU=""
         PRINT "netcat is GNU version." "debug"
     else
         PRINT "netcat is non GNU version." "debug"
