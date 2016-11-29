@@ -14,15 +14,27 @@
 # limitations under the License.
 #
 
+clone os
+
 TRANSFER_DEP_INSTALL ()
 {
-    return
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
+    SPACE_CMDENV="SUDO=\${SUDO-}"
+
+    OS_IS_INSTALLED "socat" "socat"
+
+    if [ "$?" -eq 0 ]; then
+        PRINT "Dependencies found." "success"
+    else
+        PRINT "Failed finding dependencies." "error"
+        return 1
+    fi
 }
 
 TRANSFER_CONNECT ()
 {
     SPACE_SIGNATURE="host port"
-    SPACE_CMDDEP="PRINT"
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
 
     local host="${1}"
     shift
@@ -30,52 +42,40 @@ TRANSFER_CONNECT ()
     local port="${1}"
     shift
 
-    local GNU=""
-    # netcat comes in many different flavours, if we are using the GNU
-    # version we want the -c switch the close connection on EOF.
-    local version
-    version="$(nc --help 2>&1)"
-    version="${version%%\ *}"
-    if [ "${version}" = "GNU" ]; then
-        GNU=""
-        PRINT "netcat is GNU version." "debug"
+    # Preferabbly we use socat.
+    OS_IS_INSTALLED "socat"
+    if [ "$?" -eq 0 ]; then
+        PRINT "Connecting to ${host}:${port}."
+        socat - TCP:${host}:${port}
     else
-        PRINT "netcat is non GNU version." "debug"
+        PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
+        PRINT "Connecting to ${host}:${port}."
+        nc ${host} ${port}
     fi
-
-    PRINT "Connecting to ${host}:${port}."
-
-    nc ${GNU} ${host} ${port}
 }
 
 TRANSFER_LISTEN ()
 {
     SPACE_SIGNATURE="port"
-    SPACE_CMDDEP="PRINT"
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
 
-    local host=""
+    local host="0.0.0.0"
 
     local port="${1}"
     shift
-
-    local GNU=""
-    # netcat comes in many different flavours, if we are using the GNU
-    # version we want the -c switch the close connection on EOF.
-    local version
-    version="$(nc --help 2>&1)"
-    version="${version%%\ *}"
-    if [ "${version}" = "GNU" ]; then
-        GNU=""
-        PRINT "netcat is GNU version." "debug"
-    else
-        PRINT "netcat is non GNU version." "debug"
-    fi
 
     if [ -t 1 ]; then
         PRINT "STDOUT is a terminal, if you are expecting a file transfer you might want to redirect stdout to a file." "warning"
     fi
 
-    PRINT "Listening to ${host}:${port}."
-
-    nc ${GNU} -l ${host} -p ${port}
+    # Preferabbly we use socat.
+    OS_IS_INSTALLED "socat"
+    if [ "$?" -eq 0 ]; then
+        PRINT "Listening to ${host}:${port}."
+        socat TCP-LISTEN:${port},bind=${host},reuseaddr -
+    else
+        PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
+        PRINT "Listening to ${host}:${port}."
+        nc -l ${host} -p ${port}
+    fi
 }
