@@ -17,6 +17,10 @@
 _dep_install:
     _info:
         title: Check for dependencies.
+        desc: |
+            Will attempt to install socat.
+            If socat is not available it will fallback to
+            using netcat.
     _env:
         - CMD: TRANSFER_DEP_INSTALL
 
