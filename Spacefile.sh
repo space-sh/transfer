@@ -16,6 +16,12 @@
 
 clone os
 
+#================================
+# TRANSFER_DEP_INSTALL
+#
+# Check for dependencies
+#
+#================================
 TRANSFER_DEP_INSTALL ()
 {
     SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
@@ -31,6 +37,19 @@ TRANSFER_DEP_INSTALL ()
     fi
 }
 
+#================================
+# TRANSFER_CONNECT
+#
+# Connect to a peer
+#
+# Parameters:
+#   $1: host IP
+#   $2: port number
+#
+# Returns:
+#   Non-zero on error.
+#
+#================================
 TRANSFER_CONNECT ()
 {
     SPACE_SIGNATURE="host port"
@@ -54,6 +73,18 @@ TRANSFER_CONNECT ()
     fi
 }
 
+#================================
+# TRANSFER_LISTEN
+#
+# Listen for peer connection.
+#
+# Parameters:
+#   $1: port number
+#
+# Returns:
+#   Non-zero on error.
+#
+#================================
 TRANSFER_LISTEN ()
 {
     SPACE_SIGNATURE="port"
@@ -79,3 +110,4 @@ TRANSFER_LISTEN ()
         nc -l ${host} -p ${port}
     fi
 }
+

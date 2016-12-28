@@ -24,11 +24,16 @@ _dep_install:
     _env:
         - CMD: TRANSFER_DEP_INSTALL
 
+_info:
+    title: Transfer module
+    desc: |
+        Provides a way to pipe data in and out via a TCP connection.
+
 connect:
     _info:
-        title: Connect to peer to transfer/receive data.
+        title: Connect to peer
         desc: |
-            Establish a TCP connection to remote part.
+            Establish a TCP connection to remote part to transfer or receive data.
             Use pipe or redirection to send/receive file upon
             successful connection.
     _env:
@@ -36,9 +41,11 @@ connect:
 
 listen:
     _info:
-        title: Listen on port for connecting peer.
+        title: Listen for peer
         desc: |
+            Listen on port for a connecting peer.
             Use pipe or redirection to send/receive file upon
             successful connection.
     _env:
         - CMD: TRANSFER_LISTEN
+
