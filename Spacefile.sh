@@ -16,6 +16,10 @@
 
 clone os
 
+
+# Disable warning about indirectly checking status code
+# shellcheck disable=SC2181
+
 #================================
 # TRANSFER_DEP_INSTALL
 #
@@ -24,8 +28,8 @@ clone os
 #================================
 TRANSFER_DEP_INSTALL ()
 {
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
-    SPACE_CMDENV="SUDO=\${SUDO-}"
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
+    SPACE_CMDENV="SUDO=\${SUDO-}"           # shellcheck disable=SC2034
 
     OS_IS_INSTALLED "socat" "socat"
 
@@ -36,6 +40,10 @@ TRANSFER_DEP_INSTALL ()
         return 1
     fi
 }
+
+
+# Disable warning about indirectly checking status code
+# shellcheck disable=SC2181
 
 #================================
 # TRANSFER_CONNECT
@@ -52,8 +60,8 @@ TRANSFER_DEP_INSTALL ()
 #================================
 TRANSFER_CONNECT ()
 {
-    SPACE_SIGNATURE="host port"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
+    SPACE_SIGNATURE="host port"             # shellcheck disable=SC2034
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
 
     local host="${1}"
     shift
@@ -73,6 +81,10 @@ TRANSFER_CONNECT ()
     fi
 }
 
+
+# Disable warning about indirectly checking status code
+# shellcheck disable=SC2181
+
 #================================
 # TRANSFER_LISTEN
 #
@@ -87,8 +99,8 @@ TRANSFER_CONNECT ()
 #================================
 TRANSFER_LISTEN ()
 {
-    SPACE_SIGNATURE="port"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"
+    SPACE_SIGNATURE="port"                  # shellcheck disable=SC2034
+    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
 
     local host="0.0.0.0"
 
