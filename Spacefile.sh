@@ -74,11 +74,11 @@ TRANSFER_CONNECT ()
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
         PRINT "Connecting to ${host}:${port}."
-        socat - TCP:${host}:${port}
+        socat - "TCP:${host}:${port}"
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
         PRINT "Connecting to ${host}:${port}."
-        nc ${host} ${port}
+        nc "${host}" "${port}"
     fi
 }
 
@@ -117,11 +117,11 @@ TRANSFER_LISTEN ()
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
         PRINT "Listening to ${host}:${port}."
-        socat TCP-LISTEN:${port},bind=${host},reuseaddr -
+        socat "TCP-LISTEN:${port},bind=${host},reuseaddr" -
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
         PRINT "Listening to ${host}:${port}."
-        nc -l ${host} -p ${port}
+        nc -l "${host}" -p "${port}"
     fi
 }
 
