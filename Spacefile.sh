@@ -60,7 +60,8 @@ TRANSFER_DEP_INSTALL ()
 #================================
 TRANSFER_CONNECT ()
 {
-    SPACE_SIGNATURE="host port"             # shellcheck disable=SC2034
+    # shellcheck disable=SC2034
+    SPACE_SIGNATURE="host port"
     SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
 
     local host="${1}"
@@ -99,7 +100,8 @@ TRANSFER_CONNECT ()
 #================================
 TRANSFER_LISTEN ()
 {
-    SPACE_SIGNATURE="port"                  # shellcheck disable=SC2034
+    # shellcheck disable=SC2034
+    SPACE_SIGNATURE="port"
     SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
 
     local host="0.0.0.0"
