@@ -42,7 +42,7 @@ TRANSFER_CONNECT ()
     local port="${1}"
     shift
 
-    # Preferabbly we use socat.
+    # Preferably we use socat.
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
         PRINT "Connecting to ${host}:${port}."
@@ -68,7 +68,7 @@ TRANSFER_LISTEN ()
         PRINT "STDOUT is a terminal, if you are expecting a file transfer you might want to redirect stdout to a file." "warning"
     fi
 
-    # Preferabbly we use socat.
+    # Preferably we use socat.
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
         PRINT "Listening to ${host}:${port}."

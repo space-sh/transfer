@@ -26,7 +26,7 @@ _dep_install:
 
 connect:
     _info:
-        title: Connect to peer to transfer/recieve data.
+        title: Connect to peer to transfer/receive data.
         desc: |
             Establish a TCP connection to remote part.
             Use pipe or redirection to send/receive file upon
