@@ -28,8 +28,8 @@ clone os
 #================================
 TRANSFER_DEP_INSTALL ()
 {
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
-    SPACE_CMDENV="SUDO=\${SUDO-}"           # shellcheck disable=SC2034
+    SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
+    SPACE_ENV="SUDO=\${SUDO-}"              # shellcheck disable=SC2034
 
     OS_IS_INSTALLED "socat" "socat"
 
@@ -62,7 +62,7 @@ TRANSFER_CONNECT ()
 {
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="host port"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
+    SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
 
     local host="${1}"
     shift
@@ -102,7 +102,7 @@ TRANSFER_LISTEN ()
 {
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="port"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED"    # shellcheck disable=SC2034
+    SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
 
     local host="0.0.0.0"
 
