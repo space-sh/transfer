@@ -22,7 +22,7 @@ _dep_install:
             If socat is not available it will fallback to
             using netcat.
     _env:
-        - CMD: TRANSFER_DEP_INSTALL
+        - RUN: TRANSFER_DEP_INSTALL
 
 _info:
     title: Transfer module
@@ -37,7 +37,7 @@ connect:
             Use pipe or redirection to send/receive file upon
             successful connection.
     _env:
-        - CMD: TRANSFER_CONNECT
+        - RUN: TRANSFER_CONNECT
 
 listen:
     _info:
@@ -47,5 +47,4 @@ listen:
             Use pipe or redirection to send/receive file upon
             successful connection.
     _env:
-        - CMD: TRANSFER_LISTEN
-
+        - RUN: TRANSFER_LISTEN

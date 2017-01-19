@@ -29,7 +29,7 @@ clone os
 TRANSFER_DEP_INSTALL ()
 {
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
-    SPACE_ENV="SUDO=\${SUDO-}"              # shellcheck disable=SC2034
+    SPACE_ENV="SUDO=${SUDO-}"              # shellcheck disable=SC2034
 
     OS_IS_INSTALLED "socat" "socat"
 
