@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-clone os
-
-
 # Disable warning about indirectly checking status code
 # shellcheck disable=SC2181
 
@@ -26,7 +23,7 @@ clone os
 # Check for dependencies
 #
 #================================
-TRANSFER_DEP_INSTALL ()
+TRANSFER_DEP_INSTALL()
 {
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
     SPACE_ENV="SUDO=${SUDO-}"              # shellcheck disable=SC2034
@@ -58,7 +55,7 @@ TRANSFER_DEP_INSTALL ()
 #   Non-zero on error.
 #
 #================================
-TRANSFER_CONNECT ()
+TRANSFER_CONNECT()
 {
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="host port"
@@ -98,7 +95,7 @@ TRANSFER_CONNECT ()
 #   Non-zero on error.
 #
 #================================
-TRANSFER_LISTEN ()
+TRANSFER_LISTEN()
 {
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="port"
@@ -124,4 +121,3 @@ TRANSFER_LISTEN ()
         nc -l "${host}" -p "${port}"
     fi
 }
-
