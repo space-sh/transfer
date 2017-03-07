@@ -3,12 +3,14 @@
 Provides a way to pipe data in and out via a TCP connection.
 
 
+
 ## /connect/
 	Connect to peer
 
 	Establish a TCP connection to remote part to transfer or receive data.
 	Use pipe or redirection to send/receive file upon
 	successful connection.
+	
 
 
 ## /listen/
@@ -17,6 +19,7 @@ Provides a way to pipe data in and out via a TCP connection.
 	Listen on port for a connecting peer.
 	Use pipe or redirection to send/receive file upon
 	successful connection.
+	
 
 
 # Functions 
