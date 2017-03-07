@@ -24,7 +24,7 @@ Provides a way to pipe data in and out via a TCP connection.
 
 # Functions 
 
-## TRANSFER\_DEP\_INSTALL ()  
+## TRANSFER\_DEP\_INSTALL()  
   
   
   
@@ -32,7 +32,7 @@ Check for dependencies
   
   
   
-## TRANSFER\_CONNECT ()  
+## TRANSFER\_CONNECT()  
   
   
   
@@ -47,7 +47,7 @@ Connect to a peer
   
   
   
-## TRANSFER\_LISTEN ()  
+## TRANSFER\_LISTEN()  
   
   
   
