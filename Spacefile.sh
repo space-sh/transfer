@@ -31,10 +31,18 @@ TRANSFER_DEP_INSTALL()
     OS_IS_INSTALLED "socat" "socat"
 
     if [ "$?" -eq 0 ]; then
-        PRINT "Dependencies found." "ok"
+        PRINT "socat found." "ok"
     else
-        PRINT "Failed finding dependencies." "error"
+        PRINT "Failed finding socat." "error"
         return 1
+    fi
+
+    OS_IS_INSTALLED "openssl"
+
+    if [ "$?" -ne 0 ]; then
+        PRINT "openssl found." "ok"
+    else
+        PRINT "Failed finding openssl, secure connection will not work." "error"
     fi
 }
 
@@ -50,6 +58,9 @@ TRANSFER_DEP_INSTALL()
 # Parameters:
 #   $1: host IP
 #   $2: port number
+#   $3: cert, for secure connection, optional
+#   $4: secure, use secure connection without client cert, optional.
+#   $5: verify, verify server cert on secure connection, optional
 #
 # Returns:
 #   Non-zero on error.
@@ -58,8 +69,9 @@ TRANSFER_DEP_INSTALL()
 TRANSFER_CONNECT()
 {
     # shellcheck disable=SC2034
-    SPACE_SIGNATURE="host port"
+    SPACE_SIGNATURE="host:1 port:1 [secure verify cert]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
+    SPACE_ENV="SUDO=${SUDO-}"               # shellcheck disable=SC2034
 
     local host="${1}"
     shift
@@ -67,15 +79,34 @@ TRANSFER_CONNECT()
     local port="${1}"
     shift
 
+    local secure="${1:-0}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local verify="${1:-1}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local cert="${1-}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local SUDO="${SUDO-}"
     # Preferably we use socat.
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
-        PRINT "Connecting to ${host}:${port}."
-        socat - "TCP:${host}:${port}"
+        if [ -n "${cert}" ] || [ "${secure}" = "1" ]; then
+            PRINT "Connecting to ${host}:${port} securely using cert:${cert}, verify:${verify}."
+            ${SUDO} socat - "openssl-connect:${host}:${port},verify=${verify}${cert:+,cert=$cert}"
+        else
+            PRINT "Connecting to ${host}:${port}."
+            ${SUDO} socat - "TCP:${host}:${port}"
+        fi
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
+        if [ -n "${cert}" ]; then
+            PRINT "A cert has been provided for secure connection but socat is not available." "error"
+            return 1
+        fi
         PRINT "Connecting to ${host}:${port}."
-        nc "${host}" "${port}"
+        ${SUDO} nc "${host}" "${port}"
     fi
 }
 
@@ -89,7 +120,10 @@ TRANSFER_CONNECT()
 # Listen for peer connection.
 #
 # Parameters:
-#   $1: port number
+#   $1: host
+#   $2: port number
+#   $3: cert, for secure connection, optional
+#   $4: verify, verify client cert on secure connection, optional
 #
 # Returns:
 #   Non-zero on error.
@@ -98,14 +132,23 @@ TRANSFER_CONNECT()
 TRANSFER_LISTEN()
 {
     # shellcheck disable=SC2034
-    SPACE_SIGNATURE="port"
+    SPACE_SIGNATURE="host port:1 [cert verify]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
+    SPACE_ENV="SUDO=${SUDO-}"               # shellcheck disable=SC2034
 
-    local host="0.0.0.0"
+    local host="${1:-0.0.0.0}"
+    shift
 
     local port="${1}"
     shift
 
+    local cert="${1-}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local verify="${1:-0}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local SUDO="${SUDO-}"
     if [ -t 1 ]; then
         PRINT "STDOUT is a terminal, if you are expecting a file transfer you might want to redirect stdout to a file." "warning"
     fi
@@ -113,11 +156,20 @@ TRANSFER_LISTEN()
     # Preferably we use socat.
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
-        PRINT "Listening to ${host}:${port}."
-        socat "TCP-LISTEN:${port},bind=${host},reuseaddr" -
+        if [ -n "${cert}" ]; then
+            PRINT "Listening securely on ${host}:${port} using cert: ${cert} with cert, verify:${verify}."
+            ${SUDO} socat "openssl-listen:${port},bind=${host},reuseaddr,cert=${cert},verify=${verify}" -
+        else
+            PRINT "Listening on ${host}:${port}."
+            ${SUDO} socat "TCP-LISTEN:${port},bind=${host},reuseaddr" -
+        fi
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
-        PRINT "Listening to ${host}:${port}."
-        nc -l "${host}" -p "${port}"
+        if [ -n "${cert}" ]; then
+            PRINT "A cert has been provided for secure connection but socat is not available." "error"
+            return 1
+        fi
+        PRINT "Listening on ${host}:${port}."
+        ${SUDO} nc -l "${host}" -p "${port}"
     fi
 }

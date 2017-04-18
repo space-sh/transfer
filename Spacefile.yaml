@@ -14,7 +14,10 @@
 # limitations under the License.
 #
 ---
-@clone: os
+_clone:
+    @clone: os
+    @include: os|/_clone/
+@include: |/_clone/
 
 _dep_install:
     _info:
@@ -29,7 +32,8 @@ _dep_install:
 _info:
     title: Transfer module
     desc: |
-        Provides a way to pipe data in and out via a TCP connection.
+        Provides a way to pipe data in and out via a TCP connection,
+        raw or encrypted.
 
 connect:
     _info:
@@ -39,15 +43,84 @@ connect:
             Use pipe or redirection to send/receive file upon
             successful connection.
     _env:
-        - RUN: TRANSFER_CONNECT
+        - host:
+            title: Host to connect to
+        - port:
+            title: Port on host to connect to
+        - secure:
+            title: Set to use secure connection without client cert
+            values:
+                - 0
+                - 1
+        - verify:
+            title: Set to verify server certificate
+            values:
+                - 0
+                - 1
+        - cert:
+            title: SSL/TLS certificate to use for client, optional.
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    values:
+                        - host
+                -
+                    values:
+                        - port
+                -
+                    title: Use secure connection without client cert
+                    values:
+                        - 0
+                        - 1
+                -
+                    title: Verify client certificate
+                    values:
+                        - 0
+                        - 1
+                -
+                    title: Certificate
+                    completion: G
+        - RUN: TRANSFER_CONNECT -- "${host}" "${port}" "${secure}" "${verify}" "${cert}"
 
 listen:
     _info:
         title: Listen for peer
         desc: |
-            Listen on port for a connecting peer.
-            Use pipe or redirection to send/receive file upon
-            successful connection.
+            Listen on port and wait for a connecting peer.
+            Use pipe or redirection to send/receive file upon successful connection.
+            Provide the cert variable for a secure connection using socat and openssl.
+            Set verify=1 to require client certificate.
     _env:
-        - RUN: TRANSFER_LISTEN
+        - host:
+            title: Host to listen to, default 0.0.0.0
+            values:
+                - 0.0.0.0
+        - port:
+            title: Port on host to listen to
+        - cert:
+            title: SSL/TLS certificate to use
+            completion: G
+        - verify:
+            title: Set to verify client certificate
+            values:
+                - 0
+                - 1
+        - SPACE_ARGS:
+            arguments:
+                -
+                    values:
+                        - 0.0.0.0
+                -
+                    values:
+                        - port
+                -
+                    title: Certificate
+                    completion: G
+                -
+                    title: Verify client certificate
+                    values:
+                        - 0
+                        - 1
+        - RUN: TRANSFER_LISTEN -- "${host-}" "${port}" "${cert}" "${verify}"
 ...
