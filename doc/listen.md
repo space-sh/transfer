@@ -68,14 +68,14 @@ This connection will however be unsecure between the client and the remote serve
 To solve this and use a secure connection from end to end there are two options. First option is to upload your certificate to the
 server and run -m transfer using -e cert=. This is not optimal since you need to upload the certificate
 to the third party server prior. The second option involves making an SSH tunnel from the third party
-server back home where we have the transfer module listen to a local port which is tunneled to the
+server back home where we have the transfer module listen to a local port which is tunnelled to the
 server port, in which case we can use the certificate locally, this is the recommended option.  
 
 To setup a SSH tunnel:  
 ```sh
 $ space -m ssh /tunnel/reverse/ -e SSHTUNNEL=0.0.0.0:9333:127.0.0.1:9333 -e SSHHOST=address
 ```
-This will open a SSH conection to the remote server and make a reverse tunnel back to the local computer.
+This will open a SSH connection to the remote server and make a reverse tunnel back to the local computer.
 
 Then in another terminal:  
 ```sh
