@@ -58,9 +58,9 @@ TRANSFER_DEP_INSTALL()
 # Parameters:
 #   $1: host IP
 #   $2: port number
-#   $3: cert, for secure connection, optional
-#   $4: secure, use secure connection without client cert, optional.
-#   $5: verify, verify server cert on secure connection, optional
+#   $3: secure, use secure connection without client cert, optional.
+#   $4: verify, verify server cert on secure connection, optional
+#   $5: cert, for secure connection, optional
 #
 # Returns:
 #   Non-zero on error.
