@@ -46,7 +46,8 @@ TRANSFER_DEP_INSTALL()
     fi
 }
 
-
+# Disable warning about local keyword
+# shellcheck disable=SC2039
 # Disable warning about indirectly checking status code
 # shellcheck disable=SC2181
 
@@ -110,7 +111,8 @@ TRANSFER_CONNECT()
     fi
 }
 
-
+# Disable warning about local keyword
+# shellcheck disable=SC2039
 # Disable warning about indirectly checking status code
 # shellcheck disable=SC2181
 
