@@ -15,4 +15,5 @@ Modules:
 + os  
 
 External:  
++ openssl  
 + socat  
