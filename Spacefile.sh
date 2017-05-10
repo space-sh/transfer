@@ -26,7 +26,6 @@
 TRANSFER_DEP_INSTALL()
 {
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
-    SPACE_ENV="SUDO=${SUDO-}"              # shellcheck disable=SC2034
 
     OS_IS_INSTALLED "socat" "socat"
 
@@ -72,7 +71,6 @@ TRANSFER_CONNECT()
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="host:1 port:1 [secure verify cert]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
-    SPACE_ENV="SUDO=${SUDO-}"               # shellcheck disable=SC2034
 
     local host="${1}"
     shift
@@ -89,16 +87,15 @@ TRANSFER_CONNECT()
     local cert="${1-}"
     shift $(( $# > 0 ? 1 : 0 ))
 
-    local SUDO="${SUDO-}"
     # Preferably we use socat.
     OS_IS_INSTALLED "socat"
     if [ "$?" -eq 0 ]; then
         if [ -n "${cert}" ] || [ "${secure}" = "1" ]; then
             PRINT "Connecting to ${host}:${port} securely using cert:${cert}, verify:${verify}."
-            ${SUDO} socat - "openssl-connect:${host}:${port},verify=${verify}${cert:+,cert=$cert}"
+            socat - "openssl-connect:${host}:${port},verify=${verify}${cert:+,cert=$cert}"
         else
             PRINT "Connecting to ${host}:${port}."
-            ${SUDO} socat - "TCP:${host}:${port}"
+            socat - "TCP:${host}:${port}"
         fi
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
@@ -107,7 +104,7 @@ TRANSFER_CONNECT()
             return 1
         fi
         PRINT "Connecting to ${host}:${port}."
-        ${SUDO} nc "${host}" "${port}"
+        nc "${host}" "${port}"
     fi
 }
 
@@ -136,7 +133,6 @@ TRANSFER_LISTEN()
     # shellcheck disable=SC2034
     SPACE_SIGNATURE="host port:1 [cert verify]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"       # shellcheck disable=SC2034
-    SPACE_ENV="SUDO=${SUDO-}"               # shellcheck disable=SC2034
 
     local host="${1:-0.0.0.0}"
     shift
@@ -150,7 +146,6 @@ TRANSFER_LISTEN()
     local verify="${1:-0}"
     shift $(( $# > 0 ? 1 : 0 ))
 
-    local SUDO="${SUDO-}"
     if [ -t 1 ]; then
         PRINT "STDOUT is a terminal, if you are expecting a file transfer you might want to redirect stdout to a file." "warning"
     fi
@@ -160,10 +155,10 @@ TRANSFER_LISTEN()
     if [ "$?" -eq 0 ]; then
         if [ -n "${cert}" ]; then
             PRINT "Listening securely on ${host}:${port} using cert: ${cert} with cert, verify:${verify}."
-            ${SUDO} socat "openssl-listen:${port},bind=${host},reuseaddr,cert=${cert},verify=${verify}" -
+            socat "openssl-listen:${port},bind=${host},reuseaddr,cert=${cert},verify=${verify}" -
         else
             PRINT "Listening on ${host}:${port}."
-            ${SUDO} socat "TCP-LISTEN:${port},bind=${host},reuseaddr" -
+            socat "TCP-LISTEN:${port},bind=${host},reuseaddr" -
         fi
     else
         PRINT "socat is not available, falling back to netcat which is somewhat tricky, and you might have to ctrl-c it to quit it when piping." "warning"
@@ -172,6 +167,6 @@ TRANSFER_LISTEN()
             return 1
         fi
         PRINT "Listening on ${host}:${port}."
-        ${SUDO} nc -l "${host}" -p "${port}"
+        nc -l "${host}" -p "${port}"
     fi
 }
