@@ -1,5 +1,10 @@
 # Space Module change log - transfer
 
+## [1.2.0 - 2017-05-20]
+
+- Remove old `SUDO` behavior
+
+
 ## [1.1.0 - 2017-04-26]
 
 + Add `openssl` as required dependency
