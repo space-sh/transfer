@@ -2,6 +2,7 @@
 modulename: Transfer
 title: Overview
 giturl: gitlab.com/space-sh/transfer
+editurl: /edit/master/doc/index.md
 weight: 100
 ---
 # Transfer module

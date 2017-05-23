@@ -2,6 +2,7 @@
 modulename: Transfer
 title: /listen/
 giturl: gitlab.com/space-sh/transfer
+editurl: /edit/master/doc/listen.md
 weight: 200
 ---
 # Transfer module: Listen

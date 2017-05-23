@@ -2,6 +2,7 @@
 modulename: Transfer
 title: /connect/
 giturl: gitlab.com/space-sh/transfer
+editurl: /edit/master/doc/connect.md
 weight: 200
 ---
 # Transfer module: Connect
