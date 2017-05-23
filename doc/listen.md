@@ -14,19 +14,19 @@ Listen on particular port for a connecting peer.
 
 Listening on port `9333`, ready for sending `hello.txt`:
 ```sh
-$ cat hello.txt | space -m transfer /listen/ -- "0.0.0.0" "9333"
+cat hello.txt | space -m transfer /listen/ -- "0.0.0.0" "9333"
 ```
 
 Listening on port `9333`, ready for receiving `cat.png`:
 ```sh
-$ space -m transfer /listen/ -- "0.0.0.0" "9333" > cat.png
+space -m transfer /listen/ -- "0.0.0.0" "9333" > cat.png
 ```
 
 Or using environment variables:  
 
 Listening on port `9333`, ready for receiving `cat.png`:
 ```sh
-$ space -m transfer /listen/ -e port=9333 > cat.png
+space -m transfer /listen/ -e port=9333 > cat.png
 ```
 
 
@@ -34,7 +34,7 @@ $ space -m transfer /listen/ -e port=9333 > cat.png
 
 Listening on port `9333` using SSL cert, ready for receiving `cat.png`:
 ```sh
-$ space -m transfer /listen/ -e port=9333 -e cert=mycert.pem > cat.png
+space -m transfer /listen/ -e port=9333 -e cert=mycert.pem > cat.png
 ```
 
 If using a self signed certificate, the client must use `-e verify=0` to disable certificate verification.
@@ -42,7 +42,7 @@ If using a self signed certificate, the client must use `-e verify=0` to disable
 How to create a self signed certificate using the SSL module:  
 
 ```sh
-$ space -m ssl /genselfsigned/ -e certname=mycert
+space -m ssl /genselfsigned/ -e certname=mycert
 ```
 
 ### Firewall workarounds
@@ -56,7 +56,7 @@ If you are do not want an encrypted connection it would be as simple as wrapping
 module in the ssh module:  
 
 ```sh
-$ space -m ssh /wrap/ -e SSHHOST=IP -m transfer /listen/ -e port=9333 > cat.png
+space -m ssh /wrap/ -e SSHHOST=IP -m transfer /listen/ -e port=9333 > cat.png
 ```
 
 This makes a secure SSH connection from your computer to the server which will
@@ -74,18 +74,18 @@ server port, in which case we can use the certificate locally, this is the recom
 
 To setup a SSH tunnel:  
 ```sh
-$ space -m ssh /tunnel/reverse/ -e SSHTUNNEL=0.0.0.0:9333:127.0.0.1:9333 -e SSHHOST=address
+space -m ssh /tunnel/reverse/ -e SSHTUNNEL=0.0.0.0:9333:127.0.0.1:9333 -e SSHHOST=address
 ```
 This will open a SSH connection to the remote server and make a reverse tunnel back to the local computer.
 
 Then in another terminal:  
 ```sh
-$ space -m transfer /listen/ -e port=9333 -e cert=mycert.pem
+space -m transfer /listen/ -e port=9333 -e cert=mycert.pem
 ```
 
 The client will connect to the remote server using a secure connection:  
 ```sh
-$ space -m transfer -e host=IP -e port=9333 -e secure=1
+space -m transfer -e host=IP -e port=9333 -e secure=1
 ```
 
 Exit status code is expected to be 0 on success.
