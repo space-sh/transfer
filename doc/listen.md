@@ -85,7 +85,7 @@ space -m transfer /listen/ -e port=9333 -e cert=mycert.pem
 
 The client will connect to the remote server using a secure connection:  
 ```sh
-space -m transfer -e host=IP -e port=9333 -e secure=1
+space -m transfer /connect/ -e host=IP -e port=9333 -e secure=1
 ```
 
 Exit status code is expected to be 0 on success.
