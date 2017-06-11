@@ -1,5 +1,10 @@
 # Space Module change log - transfer
 
+## [1.2.1 - 2017-06-11]
+
+* Update documentation
+
+
 ## [1.2.0 - 2017-05-20]
 
 - Remove old `SUDO` behavior
