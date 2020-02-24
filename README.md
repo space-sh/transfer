@@ -1,4 +1,4 @@
-# Transfer module | [![build status](https://gitlab.com/space-sh/transfer/badges/master/build.svg)](https://gitlab.com/space-sh/transfer/commits/master)
+# Transfer module | [![build status](https://gitlab.com/space-sh/transfer/badges/master/pipeline.svg)](https://gitlab.com/space-sh/transfer/commits/master)
 
 Provides a way to pipe data in and out via a TCP connection,
 raw or encrypted.
